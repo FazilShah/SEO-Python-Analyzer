@@ -6,7 +6,7 @@ class scrape:
 
     def __init__(self, url):
         scrape.url = url
-        scrape.response = requests.get(scrape.url, allow_redirects=False)
+        scrape.response = requests.get(scrape.url, allow_redirects=True)
         scrape.page = BeautifulSoup(scrape.response.text, 'html.parser')
 
     @staticmethod
@@ -26,5 +26,11 @@ class scrape:
     @staticmethod
     def get_h1_tags():
         text = scrape.page
-        h1 = text.h1.text
-        return str(h1)
+        h1 = text.find_all('h1')
+        h1s = [item.text for item in h1]
+        return h1s
+
+page = scrape('http://serpuplift.com/content-marketing/')
+print(len(page.get_h1_tags()))
+
+

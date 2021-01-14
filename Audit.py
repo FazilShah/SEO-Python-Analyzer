@@ -70,3 +70,34 @@ class get_scrapped_data:
                 pass
 
         return missing_titles
+    @staticmethod
+    def get_missing_h1():
+        missing_h1 = []
+        dict_missing = get_scrapped_data.get_data[2]
+        print(dict_missing)
+        for key, value in dict_missing.items():
+            if len(value) == 0:
+                missing_h1.append(key)
+        return missing_h1
+
+    @staticmethod
+    def get_duplicate_h1():
+        duplicate_h1 = []
+        flipped = {}
+        dict_h1 = get_scrapped_data.get_data[2]
+        for key, value in dict_h1.items():
+            if len(value) !=0:
+                for item in value:
+                    if item not in flipped:
+                        flipped[item] = [key]
+                    else:
+                        flipped[item].append(key)
+
+        for key, value in flipped.items():
+            if len(value) > 1:
+                duplicate_h1.append(value)
+            else:
+                pass
+        print(duplicate_h1)
+        return duplicate_h1
+

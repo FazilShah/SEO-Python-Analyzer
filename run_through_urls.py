@@ -10,6 +10,8 @@ def scrape_details(line):
     dict_titles.update({line: title})
     meta_descriptions = page.get_meta_description()
     dict_meta_d.update({line: meta_descriptions})
+    h1_text = page.get_h1_tags()
+    h1_tags.update(({line:h1_text}))
 
 
 def scrape_faster(filename):
@@ -19,13 +21,16 @@ def scrape_faster(filename):
 
     global dict_titles
     dict_titles = {}
+
+    global h1_tags
+    h1_tags = {}
     pool = Pool(8)
 
     pool.map(scrape_details, clean_url_list)
     pool.close()
     pool.join()
 
-    return dict_titles, dict_meta_d
+    return dict_titles, dict_meta_d, h1_tags
 
 
 def get_urls_from_file(filename):
