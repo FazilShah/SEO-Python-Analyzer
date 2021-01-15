@@ -13,6 +13,7 @@ class get_scrapped_data:
         duplicate_title_pages = []
         flipped = {}
         dict_titles = get_scrapped_data.get_data[0]
+        print(dict_titles)
         for key, value in dict_titles.items():
             if value is not None:
                 if value not in flipped:
@@ -60,6 +61,28 @@ class get_scrapped_data:
         return missing_descriptions
 
     @staticmethod
+    def get_titles_with_less_content():
+        low_titles = []
+        dict_low_titles = get_scrapped_data.get_data[0]
+        for key, value in dict_low_titles.items():
+            if value is not None:
+                if len(value) <= 10:
+                    low_titles.append(key)
+                    print(value)
+        return low_titles
+
+    @staticmethod
+    def get_meta_des_with_less_content():
+        low_meta = []
+        dict_low_meta = get_scrapped_data.get_data[1]
+        for key, value in dict_low_meta.items():
+            if value is not None:
+                if len(str(value)) <= 30:
+                    low_meta.append(key)
+        return low_meta
+
+
+    @staticmethod
     def get_missing_titles():
         missing_titles = []
         dict_missing = get_scrapped_data.get_data[0]
@@ -100,4 +123,33 @@ class get_scrapped_data:
                 pass
         print(duplicate_h1)
         return duplicate_h1
+
+    @staticmethod
+    def get_missing_canonicals():
+        missing_canonicals = []
+        dict_canonicals = get_scrapped_data.get_data[3]
+        for key, value in dict_canonicals.items():
+            if value is None:
+                missing_canonicals.append(key)
+        return  missing_canonicals
+
+    @staticmethod
+    def improper_canonicals():
+        improper = []
+        dict_canonicals = get_scrapped_data.get_data[3]
+        for key, value in dict_canonicals.items():
+            if value is not None:
+                if value != key:
+                    improper.append(key)
+        return improper
+
+    @staticmethod
+    def missing_viewports():
+        missing_viewports = []
+        dict_missing_v = get_scrapped_data.get_data[4]
+        for key, value in dict_missing_v.items():
+            if value is False:
+                missing_viewports.append(key)
+
+        return missing_viewports
 

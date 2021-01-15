@@ -16,6 +16,7 @@ class Spider:
     queue = set()
     crawled = set()
 
+
     def __init__(self, project_name, base_url, domain_name):
         Spider.project_name = project_name
         Spider.base_url = base_url
@@ -50,13 +51,16 @@ class Spider:
         html_string = ''
         try:
             response = urlopen(page_url)
+
+
+
             if 'text/html' in response.getheader('Content-Type'):
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
             finder = LinkFinder(Spider.base_url, page_url)
             finder.feed(html_string)
         except Exception as e:
-            print(str(e))
+            print('we faced this' + str(e))
             return set()
         return finder.page_links()
 
@@ -75,3 +79,5 @@ class Spider:
     def update_files():
         set_to_file(Spider.queue, Spider.queue_file)
         set_to_file(Spider.crawled, Spider.crawled_file)
+
+

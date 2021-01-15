@@ -6,15 +6,18 @@ class scrape:
 
     def __init__(self, url):
         scrape.url = url
-        scrape.response = requests.get(scrape.url, allow_redirects=True)
+        scrape.response = requests.get(scrape.url, allow_redirects=False)
         scrape.page = BeautifulSoup(scrape.response.text, 'html.parser')
 
     @staticmethod
     def get_title():
         text = scrape.page
-        title = text.title
+        try:
+            title = text.find('title')
+            return str(title.string)
+        except:
+            return None
 
-        return str(title)
 
     @staticmethod
     def get_meta_description():
@@ -30,7 +33,29 @@ class scrape:
         h1s = [item.text for item in h1]
         return h1s
 
-page = scrape('http://serpuplift.com/content-marketing/')
-print(len(page.get_h1_tags()))
+    @staticmethod
+    def get_canonical():
+        text = scrape.page
+        can = text.find('link', rel='canonical')
+        try:
+            return can['href']
+        except:
+            return None
+
+    @staticmethod
+    def get_viewports():
+        text = scrape.page
+        for tag in text.find_all(attrs={"name":"viewport"}):
+            if tag.get('name') == 'viewport':
+                return True
+            else:
+                return False
+
+
+
+
+
+
+
 
 
